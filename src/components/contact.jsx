@@ -9,9 +9,9 @@ const contact = () => {
         <h1 className="text-4xl text-start mx-6 font-bold py-8 pt-10">
           Contact Us
         </h1>
-        <div className="flex flex-wrap flex-col md:flex-row md:space-y-0 space-y-8 py-8 space-x-36">
+        <div className="flex  flex-col md:flex-row md:space-y-0 space-y-8 py-8 space-x-36">
           {/* Left */}
-          <div className="flex self-start justify-center text-start pl-4 text-xl w-full md:w-1/3">
+          <div className="flex justify-center text-start pl-4 text-xl w-full md:w-1/3">
             <ul className="list-disc space-y-4">
               <li className=""><a href="#home">Home</a></li>
               <li className=""><a href="#about">About</a></li>
@@ -20,7 +20,7 @@ const contact = () => {
             </ul>
           </div>
           {/* Center */}
-          <div className="self-center text-xl space-y-6 w-full md:w-1/3">
+          <div className="text-xl space-y-6 w-full md:w-1/3">
             {/* Instagram */}
             <div className="flex items-center space-x-8">
               <AiFillInstagram className="h-8 w-8" />
@@ -38,7 +38,7 @@ const contact = () => {
             </div>
           </div>
           {/* Right */}
-          <div className="self-end space-y-6 w-full md:w-1/3">
+          <div className="space-y-6 w-full md:w-1/3">
             <p>Terms of Use</p>
             <p>Privacy Policy</p>
             <p>Need Help? <a href="#contact" className="underline">Contact Us</a></p>
