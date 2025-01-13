@@ -7,7 +7,7 @@ import Footer from './components/footer';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App overflow-x-hidden">
       <Navbar/>
       <Home/>
       <div className="bg-gradient-to-b from-black via-amber-950 to-black">

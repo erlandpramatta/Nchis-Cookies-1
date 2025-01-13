@@ -9,7 +9,7 @@ const Home = () => {
       <div className="absolute inset-0 lg:hidden"></div>
 
       {/* Mobile Content */}
-      <div className="bg-gradient-to-b from-amber-950 to-black relative lg:hidden h-full flex flex-col justify-end px-4 pb-36 z-10">
+      <div className="bg-gradient-to-b from-amber-950 to-black relative lg:hidden h-full flex flex-col justify-end px-4 pb-24 z-10">
         <h1 className="text-5xl font-bold text-start text-white">
           Bite Into <span className="text-amber-700/80">Happiness.</span>
         </h1>
