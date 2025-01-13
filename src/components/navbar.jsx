@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/20 backdrop-blur-lg shadow-lg" : "bg-amber-950/0 lg:bg-black"
+        isScrolled ? "bg-white/10 backdrop-blur-lg shadow-lg" : "bg-amber-950/0 lg:bg-black"
       } p-1`}
     >
       <div className="flex lg:justify-between items-center">
@@ -43,25 +43,25 @@ const Navbar = () => {
           <div className="flex flex-col lg:flex-row justify-center">
             <a
               href="#home"
-              className="text-white hover:text-gray-300 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
             >
               Home
             </a>
             <a
               href="#about"
-              className="text-white hover:text-gray-300 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
             >
               About
             </a>
             <a
               href="#product"
-              className="text-white hover:text-gray-300 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
             >
               Product
             </a>
             <a
               href="#contact"
-              className="text-white hover:text-gray-300 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
             >
               Contact Us
             </a>

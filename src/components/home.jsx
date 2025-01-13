@@ -19,8 +19,8 @@ const Home = () => {
         <div className='mt-4'>
           <img src={CookiesImage} className='rounded-2xl' alt="" />
         </div>
-        <button className="flex justify-center items-center bg-amber-900 w-32 h-10 mx-32 rounded-lg text-center text-md font-semibold mt-8 text-white">
-          Order Now
+        <button type='button' className="flex justify-center items-center bg-amber-900 w-32 h-10 mx-32 rounded-lg text-center text-md font-semibold mt-8 text-white hover:text-amber-900 hover:bg-white transition duration-300">
+          <a href="#product">Order Now</a>
         </button>
       </div>
 
@@ -36,8 +36,8 @@ const Home = () => {
           <h2 className="text-6xl text-white mt-4 text-start opacity-80">
             One Cookie at a Time
           </h2>
-          <button className="flex justify-center items-center bg-amber-900 w-40 h-14 rounded-lg text-center text-xl font-semibold mt-8 text-white">
-            Order Now
+          <button className="flex justify-center items-center bg-amber-900 w-40 h-14 rounded-lg text-center text-xl font-semibold mt-8 text-white hover:bg-white hover:text-amber-900 transition duration-300">
+            <a href="#product">Order Now</a>
           </button>
         </div>
       </div>
