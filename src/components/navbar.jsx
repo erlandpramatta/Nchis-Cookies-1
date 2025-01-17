@@ -43,32 +43,32 @@ const Navbar = () => {
           <div className="flex flex-col lg:flex-row justify-center">
             <a
               href="#home"
-              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${isScrolled ? "text-yellow-700" : ""}`}
             >
               Home
             </a>
             <a
               href="#about"
-              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${isScrolled ? "text-yellow-700" : ""}`}
             >
               About
             </a>
             <a
               href="#product"
-              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${isScrolled ? "text-yellow-700" : ""}`}
             >
               Product
             </a>
             <a
               href="#contact"
-              className="text-yellow-700 hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300"
+              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${isScrolled ? "text-yellow-700" : ""}`}
             >
               Contact Us
             </a>
           </div>
         </div>
 
-        <button className="bg-amber-800 lg:w-28 lg:h-10 w-20 h-8 flex items-center rounded-lg lg:mx-20 lg:ml-0 ml-56 text-white font-medium hover:bg-amber-700 transition duration-300 lg:mt-0">
+        <button className="bg-amber-800 border border-white lg:w-28 lg:h-10 w-20 h-8 flex items-center rounded-lg lg:mx-20 lg:ml-0 ml-56 text-white font-medium hover:bg-amber-700 transition duration-300 lg:mt-0">
           <img src={google} alt="login" className="lg:w-6 lg:ml-3 w-4 ml-1" />
           <span className="ml-2 font-sans text-sm lg:text-md">Login</span>
         </button>

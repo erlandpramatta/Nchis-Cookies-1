@@ -3,6 +3,7 @@ import Cookies from "../asset/cookies-about.png";
 
 const About = () => {
   return (
+    <>
     <section id="about" className="min-h-screen flex items-center justify-center pt-8 px-2">
       <div className="max-w-5xl text-start text-white">
         <h1 className="lg:text-5xl text-3xl lg:font-bold font-semibold justify-center lg:justify-start flex mb-6">About Us</h1>
@@ -24,6 +25,7 @@ const About = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
