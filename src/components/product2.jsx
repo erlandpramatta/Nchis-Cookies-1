@@ -62,9 +62,29 @@ const Product = () => {
     ["Paket 4","Bolu Jadul, Tahu Baso, Klepon, Cendol Keju", 12000],
   ]
 
-  const PopUp = () => {
-    alert('User Login Needed')
-  }
+  const handleOrder = (productName, variant, price) => {
+    const message = `Halo Kak Nchis👋, saya ingin memesan:
+      
+      Detail Pesanan:
+      Produk: ${productName}
+      Varian: ${variant}
+      Harga: Rp. ${price.toLocaleString("id-ID")}
+  
+      Ini data saya:
+      - Nama:
+      - Alamat Lengkap:
+      - Email:
+      - No. HP:
+
+      Apakah Produk ini masih Tersedia?😀
+  
+      Terima kasih!`;
+  
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/6285701557609?text=${encodedMessage}`;
+    window.open(whatsappURL, '_blank');
+  };
+  
 
   return (
     <section id="product" className='min-h-screen  flex flex-col '>
@@ -80,7 +100,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data[0], data[1], data[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -95,7 +115,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data1[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data1[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data1[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data1[0], data1[1], data1[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -110,7 +130,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data2[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data2[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data2[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data2[0], data2[1], data2[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -125,7 +145,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data3[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data3[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data3[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data3[0], data3[1], data3[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -140,7 +160,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data4[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data4[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data4[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data4[0], data4[1], data4[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -155,7 +175,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data5[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data5[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data5[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data5[0], data5[1], data5[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -170,7 +190,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data7[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data7[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data7[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data7[0], data7[1], data7[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -185,7 +205,7 @@ const Product = () => {
             <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data6[0]}</h2>
             <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data6[1]}</h2>
             <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data6[2].toLocaleString("id-ID")}</h2>
-            <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+            <button onClick={() => handleOrder(data6[0], data6[1], data6[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
           </div>
         ))}
       </div>
@@ -210,7 +230,7 @@ const Product = () => {
         </p>
       </details>
       <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data8[2].toLocaleString("id-ID")}</h2>
-      <button onClick={PopUp} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+      <button onClick={() => handleOrder(data8[0], data8[1], data8[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
     </div>
   ))}
 </div>
