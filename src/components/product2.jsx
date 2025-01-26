@@ -1,8 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Cookies from '../asset/cookies-about.png';
 import Brownies from '../asset/brownies.png';
 
+const ProductCard = ({ item, isBundle, addToCart, image }) => {
+  return (
+    <div className="lg:h-auto lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-between pb-4">
+      <img src={image} alt="cookies" className="lg:h-36 h-32 mt-4 lg:mt-8"/>
+      <h2 className="font-semibold lg:text-2xl text-lg text-center mt-2">{item[0]}</h2>
+
+      {/* Kalau bundle, pakai <details>, kalau bukan bundle tampil langsung */}
+      {isBundle ? (
+        <details className='text-gray-500 text-center mt-2'>
+          <summary className='font-light lg:text-lg text-md cursor-pointer'>
+            Lihat Deskripsi
+          </summary>
+          <p className='mt-2 px-1 font-light text-sm'>
+            {item[1]}
+          </p>
+        </details>
+      ) : (
+        <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{item[1]}</h2>
+      )}
+
+      <h2 className="font-semibold lg:text-2xl text-xl text-amber-600">Rp. {item[2].toLocaleString("id-ID")}</h2>
+      <button
+        onClick={() => addToCart(item[0], item[1], item[2])}
+        className="mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300"
+      >
+        Add
+      </button>
+    </div>
+  );
+};
+
+const ProductCategory = ({ title, data, addToCart, image, isBundle = false }) => {
+  return (
+    <>
+      <div className="max-w-4xl text-start ml-10 mt-20 text-white">
+        <h2 className="text-3xl lg:font-bold font-semibold lg:px-24">{title}</h2>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11">
+        {data.map((item, index) => (
+          <ProductCard key={index} item={item} isBundle={isBundle} addToCart={addToCart} image={image} />
+        ))}
+      </div>
+    </>
+  );
+};
+
 const Product = () => {
+  const [cart, setCart] = useState([])
 
   const data = [
     ["Nastar Tabur Keju","300 Gram", 50000],
@@ -62,178 +109,97 @@ const Product = () => {
     ["Paket 4","Bolu Jadul, Tahu Baso, Klepon, Cendol Keju", 12000],
   ]
 
-  const handleOrder = (productName, variant, price) => {
+  const categories = [
+    { title: "Nastar", data: data, image: Cookies },
+    { title: "Pastel Mini", data: data1, image: Cookies },
+    { title: "Flower Cookies", data: data2, image: Cookies },
+    { title: "Dream Cookies", data: data3, image: Cookies },
+    { title: "Castangel", data: data4, image: Cookies },
+    { title: "Fudge Brownies", data: data5, image: Cookies },
+    { title: "Cheese Cream", data: data7, image: Cookies },
+    { title: "Other Snacks", data: data6, image: Brownies },
+    { title: "Bundles", data: data8, image: Brownies, isBundle: true },
+  ];
+
+  const addToCart = (productName, variant, price) => {
+    setCart(prevCart => [...prevCart, { productName, variant, price }]);
+  };
+
+  const removeFromCart = (index) => {
+    setCart(prevCart => prevCart.filter((_, i) => i !== index));
+  };
+
+  const handleOrder = () => {
+    if (cart.length === 0) return;
+
+    const itemsList = cart.map((item, index) => `
+      ${index + 1}. ${item.productName} - ${item.variant} - Rp. ${item.price.toLocaleString("id-ID")}
+    `).join('\n');
+
+    const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
     const message = `Halo Kak Nchis👋, saya ingin memesan:
-      
+    
       Detail Pesanan:
-      Produk: ${productName}
-      Varian: ${variant}
-      Harga: Rp. ${price.toLocaleString("id-ID")}
+      ${itemsList}
+      
+      Total Harga: Rp. ${totalPrice.toLocaleString("id-ID")}
   
       Ini data saya:
       - Nama:
       - Alamat Lengkap:
       - Email:
       - No. HP:
-
+  
       Apakah Produk ini masih Tersedia?😀
   
       Terima kasih!`;
-  
+
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/6285701557609?text=${encodedMessage}`;
     window.open(whatsappURL, '_blank');
   };
-  
 
   return (
     <section id="product" className='min-h-screen  flex flex-col '>
       <h1 className='text-center lg:font-bold font-semibold lg:text-5xl text-3xl mb-8 text-white'>Product</h1>
-      {/* Nastar */}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Nastar</h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data.map((data, index) => (
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Cookies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data[0], data[1], data[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-          </div>
+      <div>
+        {categories.map((cat, index) => (
+          <ProductCategory
+            key={index}
+            title={cat.title}
+            data={cat.data}
+            addToCart={addToCart}
+            image={cat.image}
+            isBundle={cat.isBundle || false}
+          />
         ))}
       </div>
-      {/* Pastel */}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Pastel Mini</h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data1.map((data1, index) => (
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Cookies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data1[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data1[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data1[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data1[0], data1[1], data1[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
+
+      {/* Cart */}
+      <div className="min-h-auto flex items-center justify-center pt-8 px-2">
+        {cart.length > 0 && (
+          <div
+            className='w-full bg-amber-900 bg-opacity-50 border-2 rounded-lg text-white p-4 flex flex-col items-center mt-10 mx-32'>
+            <h2 className='text-lg font-semibold'>Keranjang</h2>
+            <ul>
+              {cart.map((item, index) => (
+                <li key={index} className='flex justify-between w-full px-4'>
+                  {item.productName} - {item.variant} - Rp. {item.price.toLocaleString("id-ID")}
+                  <button onClick={() => removeFromCart(index)} className='ml-4 text-red-500 hover:text-red-700'>Hapus
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <h3 className='font-bold mt-2'>Total:
+              Rp. {cart.reduce((total, item) => total + item.price, 0).toLocaleString("id-ID")}</h3>
+            <button onClick={handleOrder}
+                    className='mt-4 px-6 py-2 bg-amber-700 text-white rounded-full hover:bg-amber-800 transition duration-300'>Order
+              Now
+            </button>
           </div>
-        ))}
+        )}
       </div>
-      {/* Flower Cookies */}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Flower Cookies</h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data2.map((data2, index) => (
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Cookies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data2[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data2[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data2[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data2[0], data2[1], data2[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-          </div>
-        ))}
-      </div>
-      {/* Dream Cookies */}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Dream Cookies </h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data3.map((data3, index) => (
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Cookies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data3[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data3[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data3[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data3[0], data3[1], data3[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-          </div>
-        ))}
-      </div>
-      {/* Castangel */}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Castangel</h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data4.map((data4, index) => (
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Cookies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data4[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data4[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data4[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data4[0], data4[1], data4[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-          </div>
-        ))}
-      </div>
-      {/* Fudge Brownies */}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Fudge Brownies</h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data5.map((data5, index) => (  
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Brownies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data5[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data5[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data5[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data5[0], data5[1], data5[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-          </div>
-        ))}
-      </div>
-      {/* Cheese Cream */}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Cheese Cream</h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data7.map((data7, index) => (  
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Brownies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data7[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data7[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data7[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data7[0], data7[1], data7[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-          </div>
-        ))}
-      </div>
-      {/* Other*/}
-      <div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-        <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Other Snacks</h2>
-      </div>
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-        {data6.map((data6, index) => (  
-          <div key={index} className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-start'>
-            <img src={Brownies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-            <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data6[0]}</h2>
-            <h2 className='font-light lg:text-lg text-md text-gray-500 mt-2'>{data6[1]}</h2>
-            <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data6[2].toLocaleString("id-ID")}</h2>
-            <button onClick={() => handleOrder(data6[0], data6[1], data6[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-          </div>
-        ))}
-      </div>
-      {/* Bundles */}
-<div className='max-w-4xl text-start ml-10 mt-20 text-white'>
-  <h2 className='text-3xl lg:font-bold font-semibold lg:px-24'>Bundles</h2>
-</div>
-<div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-y-10 gap-y-4 mx-6 md:mx-36 mt-11'>
-  {data8.map((data8, index) => (
-    <div 
-      key={index} 
-      className='lg:h-96 lg:w-64 h-80 w-44 rounded-2xl bg-gray-100 shadow-2xl shadow-black flex flex-col items-center justify-between pb-4'
-    >
-      <img src={Brownies} alt='cookies' className='lg:h-36 h-32 mt-4 lg:mt-8'/>
-      <h2 className='font-semibold lg:text-2xl text-lg text-center mt-2'>{data8[0]}</h2>
-      <details className='text-gray-500 text-center mt-2'>
-        <summary className='font-light lg:text-lg text-md cursor-pointer'>
-          Lihat Deskripsi
-        </summary>
-        <p className='mt-2 font-light text-sm'>
-          {data8[1]}
-        </p>
-      </details>
-      <h2 className='font-semibold lg:text-2xl text-xl text-amber-600'>Rp. {data8[2].toLocaleString("id-ID")}</h2>
-      <button onClick={() => handleOrder(data8[0], data8[1], data8[2])} className='mt-4 lg:px-12 lg:py-2 px-8 py-1 text-amber-700 border-2 border-amber-700 rounded-full hover:bg-amber-700 hover:text-white transition duration-300'>Order</button>
-    </div>
-  ))}
-</div>
 
     </section>
   );
