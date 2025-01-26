@@ -8,7 +8,6 @@ const ProductCard = ({ item, isBundle, addToCart, image }) => {
       <img src={image} alt="cookies" className="lg:h-36 h-32 mt-4 lg:mt-8"/>
       <h2 className="font-semibold lg:text-2xl text-lg text-center mt-2">{item[0]}</h2>
 
-      {/* Kalau bundle, pakai <details>, kalau bukan bundle tampil langsung */}
       {isBundle ? (
         <details className='text-gray-500 text-center mt-2'>
           <summary className='font-light lg:text-lg text-md cursor-pointer'>
@@ -58,50 +57,42 @@ const Product = () => {
     ["Nastar Polos","350 Gram", 60000],
     ["Nastar Polos","500 Gram", 80000],
   ]
-
   const data1 = [
     ["Pastel Mini Abon Sapi","100 Gram", 18000],
     ["Pastel Mini Abon Sapi","200 Gram", 35000],
     ["Pastel Mini Abon Sapi","350 Gram", 60000],
 
   ]
-
   const data2 = [
     ["Flower Cookies (Jar)","250 Gram", 28000],
     ["Flower Cookies (Pouch)","200 Gram", 18000],
   ]
-  
   const data3 = [
     ["Dream Cookies (Jar)","160 Gram", 25000],
     ["Dream Cookies (Jar)","250 Gram", 40000],
 
   ]
-
   const data4 = [
     ["Castangel","250 Gram", 50000],
     ["Castangel","500 Gram", 90000],
   ]
-
   const data5 = [
     ["Fudge Brownies","uk. 22x10", 50000],
     ["Fudge Brownies","uk. 15x10", 38000],
     ["Fudge Brownies","uk. 2x1", 6000],
   ]
-
   const data6 = [
     ["Bolu Cake","uk. 22x10", 38000],
     ["Soes Fla Mini","10 Pcs", 20000],
     ["Crispy Almond Cookies","100 Gram", 40000],
     ["Nugget Frozen","450 Gram", 40000],
   ]
-
   const data7 = [
     ["Chese Cream","Oreo", 15000],
     ["Chese Cream","Matcha", 15000],
     ["Chese Cream","Green Tea", 15000],
     ["Chese Cream","Red Velvet", 15000],
   ]
-
   const data8 = [
     ["Paket 1","Bolu Jadul, Misoa Goreng, Gabin Tape, Soesvla Vanilla", 12000],
     ["Paket 2","Fudge Brownies, Puding & Fla, Risol Sayur & Telur, Emping Mlinjo", 12000],
@@ -194,8 +185,7 @@ const Product = () => {
             <h3 className='font-bold mt-2'>Total:
               Rp. {cart.reduce((total, item) => total + item.price, 0).toLocaleString("id-ID")}</h3>
             <button onClick={handleOrder}
-                    className='mt-4 px-6 py-2 bg-amber-700 text-white rounded-full hover:bg-amber-800 transition duration-300'>Order
-              Now
+                    className='mt-4 px-6 py-2 bg-amber-700 text-white rounded-full hover:bg-amber-800 transition duration-300'>Order Now
             </button>
           </div>
         )}
