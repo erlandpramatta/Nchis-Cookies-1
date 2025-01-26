@@ -3,18 +3,19 @@ import logo from "../asset/logo.png";
 import google from "../asset/google.png";
 import { auth, provider, signInWithPopup } from "./firebase";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./userContext"; // Import context
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [user, setUser] = useState(null);
+  const { setUser } = useUser(); // Access context
   const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      setUser(user);
+      setUser(user); // Set user in context
       alert(`Welcome, ${user.displayName}`);
       navigate("/home");
     } catch (error) {
@@ -24,9 +25,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
 
     window.addEventListener("scroll", handleScroll);
 
@@ -41,6 +40,7 @@ const Navbar = () => {
         isScrolled ? "bg-white/10 backdrop-blur-lg shadow-lg" : "bg-amber-950/0 lg:bg-black"
       } p-1`}
     >
+      {/* Content */}
       <div className="flex lg:justify-between items-center">
         <div className="flex items-center lg:mx-20">
           <img src={logo} alt="logo" className="w-20 h-20 lg:h-28 lg:w-28" />
@@ -51,6 +51,7 @@ const Navbar = () => {
             isOpen ? "block" : "hidden"
           } transition-all duration-300`}
         >
+          {/* Navigation Links */}
           <div className="flex flex-col lg:flex-row justify-center">
             <a href="#home" className="text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300">
               Home
@@ -74,18 +75,6 @@ const Navbar = () => {
           <img src={google} alt="login" className="lg:w-6 lg:ml-3 w-4 ml-1" />
           <span className="ml-2 font-sans text-sm lg:text-md">Login</span>
         </button>
-
-        <div className="lg:hidden ml-4">
-          <button className="text-white focus:outline-none" onClick={() => setIsOpen(!isOpen)}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              )}
-            </svg>
-          </button>
-        </div>
       </div>
     </nav>
   );

@@ -113,24 +113,59 @@ const Product = () => {
   ];
 
   const addToCart = (productName, variant, price) => {
-    setCart(prevCart => [...prevCart, { productName, variant, price }]);
+    setCart((prevCart) => {
+      // Cari indeks item di keranjang
+      const existingItemIndex = prevCart.findIndex(
+        (item) => item.productName === productName && item.variant === variant
+      );
+  
+      if (existingItemIndex !== -1) {
+        // Jika item sudah ada, update jumlahnya
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].quantity += 1;
+        return updatedCart;
+      } else {
+        // Jika item belum ada, tambahkan sebagai item baru
+        return [...prevCart, { productName, variant, price, quantity: 1 }];
+      }
+    });
   };
+  
+  
 
   const removeFromCart = (index) => {
-    setCart(prevCart => prevCart.filter((_, i) => i !== index));
+    setCart((prevCart) => {
+      const updatedCart = [...prevCart];
+      if (updatedCart[index].quantity > 1) {
+        // Kurangi quantity
+        updatedCart[index].quantity -= 1;
+      } else {
+        // Jika quantity 0, hapus item
+        updatedCart.splice(index, 1);
+      }
+      return updatedCart;
+    });
   };
+  
+  
+
+  const resetCard = () => {
+    setCart([])
+  }
 
   const handleOrder = () => {
     if (cart.length === 0) return;
-
-    const itemsList = cart.map((item, index) => `
-      ${index + 1}. ${item.productName} - ${item.variant} - Rp. ${item.price.toLocaleString("id-ID")}
-    `).join('\n');
-
+  
+    const itemsList = cart
+      .map((item, index) => `
+        ${index + 1}. ${item.productName} - ${item.variant} - Rp. ${item.price.toLocaleString("id-ID")}
+      `)
+      .join('\n');
+  
     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
-
+  
     const message = `Halo Kak Nchis👋, saya ingin memesan:
-    
+      
       Detail Pesanan:
       ${itemsList}
       
@@ -145,12 +180,15 @@ const Product = () => {
       Apakah Produk ini masih Tersedia?😀
   
       Terima kasih!`;
-
+  
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/6285701557609?text=${encodedMessage}`;
+    
+  
     window.open(whatsappURL, '_blank');
+    setCart([]);
   };
-
+  
   return (
     <section id="product" className='min-h-screen  flex flex-col '>
       <h1 className='text-center lg:font-bold font-semibold lg:text-5xl text-3xl mb-8 text-white'>Product</h1>
@@ -167,29 +205,63 @@ const Product = () => {
         ))}
       </div>
 
-      {/* Cart */}
-      <div className="min-h-auto flex items-center justify-center pt-8 px-2">
-        {cart.length > 0 && (
-          <div
-            className='w-full bg-amber-900 bg-opacity-50 border-2 rounded-lg text-white p-4 flex flex-col items-center mt-10 mx-32'>
-            <h2 className='text-lg font-semibold'>Keranjang</h2>
-            <ul>
-              {cart.map((item, index) => (
-                <li key={index} className='flex justify-between w-full px-4'>
-                  {item.productName} - {item.variant} - Rp. {item.price.toLocaleString("id-ID")}
-                  <button onClick={() => removeFromCart(index)} className='ml-4 text-red-500 hover:text-red-700'>Hapus
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <h3 className='font-bold mt-2'>Total:
-              Rp. {cart.reduce((total, item) => total + item.price, 0).toLocaleString("id-ID")}</h3>
-            <button onClick={handleOrder}
-                    className='mt-4 px-6 py-2 bg-amber-700 text-white rounded-full hover:bg-amber-800 transition duration-300'>Order Now
-            </button>
-          </div>
-        )}
+     {/* Cart */}
+<div className="min-h-auto flex items-center justify-center pt-8 px-4 sm:px-6 lg:px-8">
+  {cart.length > 0 && (
+    <div
+      className="w-full max-w-4xl bg-amber-900 bg-opacity-50 border-2 border-amber-800 rounded-lg text-white p-6 flex flex-col items-center mt-10 shadow-md"
+    >
+      <h2 className="text-xl font-semibold mb-4">Keranjang</h2>
+      <ul className="w-full space-y-4">
+  {cart.map((item, index) => (
+    <li
+      key={index}
+      className="flex flex-wrap justify-between items-center w-full bg-amber-800 bg-opacity-40 p-4 rounded-md"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+        <span className="font-medium">{item.productName}</span>
+        <span className="text-sm text-gray-200">{item.variant}</span>
+        <span className="text-sm text-gray-200">x{item.quantity}</span>
       </div>
+      <div className="flex items-center mt-2 sm:mt-0 space-x-4">
+        <span className="font-bold text-lg">
+          Rp. {(item.price * item.quantity).toLocaleString("id-ID")}
+        </span>
+        <button
+          onClick={() => removeFromCart(index)}
+          className="text-red-400 hover:text-red-600 transition"
+        >
+          Hapus
+        </button>
+      </div>
+    </li>
+  ))}
+</ul>
+
+      <div className="w-full mt-6 flex flex-wrap justify-between items-center">
+        <h3 className="font-bold text-lg">
+          Total: Rp.{" "}
+          {cart.reduce((total, item) => total + item.price, 0).toLocaleString(
+            "id-ID"
+          )}
+        </h3>
+        <button
+          onClick={resetCard}
+          className="mt-4 sm:mt-0 px-6 py-2 bg-red-600 text-white rounded-full hover:bg-red-800 transition duration-300"
+        >
+          Reset
+        </button>
+        <button
+          onClick={handleOrder}
+          className="mt-4 sm:mt-0 px-6 py-2 bg-amber-700 text-white rounded-full hover:bg-amber-800 transition duration-300"
+        >
+          Order Now
+        </button>
+      </div>
+    </div>
+  )}
+</div>
+
 
     </section>
   );
