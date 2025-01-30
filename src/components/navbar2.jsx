@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
 import logo from "../asset/logo.png";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./userContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user } = useUser(); // Access context
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate("/"); 
+    navigate("/");
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
 
     window.addEventListener("scroll", handleScroll);
 
@@ -34,90 +30,38 @@ const Navbar = () => {
       } p-1`}
     >
       <div className="flex lg:justify-between items-center">
-        {/* Logo */}
         <div className="flex items-center lg:mx-20">
           <img src={logo} alt="logo" className="w-20 h-20 lg:h-28 lg:w-28" />
         </div>
 
-        {/* Navigation Links */}
         <div
           className={`lg:flex items-center ${
             isOpen ? "block" : "hidden"
           } transition-all duration-300`}
         >
           <div className="flex flex-col lg:flex-row justify-center">
-            <a
-              href="#home"
-              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${
-                isScrolled ? "text-yellow-700" : ""
-              }`}
-            >
+            <a href="#home" className="text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300">
               Home
             </a>
-            <a
-              href="#about"
-              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${
-                isScrolled ? "text-yellow-700" : ""
-              }`}
-            >
+            <a href="#about" className="text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300">
               About
             </a>
-            <a
-              href="#product"
-              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${
-                isScrolled ? "text-yellow-700" : ""
-              }`}
-            >
+            <a href="#product" className="text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300">
               Product
             </a>
-            <a
-              href="#contact"
-              className={`text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300 ${
-                isScrolled ? "text-yellow-700" : ""
-              }`}
-            >
+            <a href="#contact" className="text-white hover:text-yellow-400 mx-2 lg:mx-6 my-2 lg:my-0 lg:text-xl lg:font-semibold transition duration-300">
               Contact Us
             </a>
           </div>
         </div>
 
-        <button
-            className="bg-amber-800 border border-white lg:w-28 lg:h-10 w-20 h-8 flex justify-center items-center rounded-lg lg:mx-20 lg:ml-0 ml-56 text-white font-medium hover:bg-amber-700 transition duration-300 lg:mt-0"
-            onClick={handleLogout}
-        >
-            <h2 className="text-center font-sans text-sm lg:text-md">Logout</h2>
-        </button>
-
-
-        {/* Hamburger Menu for Mobile */}
-        <div className="lg:hidden ml-4">
+        <div className="flex items-center lg:mx-20">
+          {user && <span className="text-white font-medium mr-4">Hello, {user.displayName}</span>}
           <button
-            className="text-white focus:outline-none"
-            onClick={() => setIsOpen(!isOpen)}
+            className="bg-amber-800 border border-white lg:w-28 lg:h-10 w-20 h-8 flex justify-center items-center rounded-lg text-white font-medium hover:bg-amber-700 transition duration-300"
+            onClick={handleLogout}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16m-7 6h7"
-                />
-              )}
-            </svg>
+            Logout
           </button>
         </div>
       </div>
